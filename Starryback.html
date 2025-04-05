@@ -14,7 +14,7 @@
       flex-direction: column;
       align-items: center;
       background: #000000;
-      color: #d543c4;
+      color: #d543b5;
       padding: 20px;
       overflow: hidden;
       position: relative;
@@ -73,17 +73,6 @@
     #score, #multiplier, #probability, #cashoutMessage, #balanceDisplay {
       margin: 5px 0;
       font-size: 18px;
-    }
-
-    #timer {
-      background: #ffb6c1;
-      color: #fff;
-      padding: 10px 20px;
-      border-radius: 50%;
-      box-shadow: 0 0 10px #ffc2d1;
-      font-size: 20px;
-      font-weight: bold;
-      margin-top: 10px;
     }
 
     button {
@@ -187,7 +176,6 @@
   <div id="score">Score: 0</div>
   <div id="multiplier">Multiplier: 1x</div>
   <div id="probability"></div>
-  <div id="timer">0s</div>
   <div id="game"></div>
   <button id="cashout">💰 Cash Out</button>
   <div id="cashoutMessage"></div>
@@ -209,7 +197,6 @@
     const cashoutBtn = document.getElementById('cashout');
     const gridSizeInput = document.getElementById('gridSizeInput');
     const minesInput = document.getElementById('minesInput');
-    const timerDisplay = document.getElementById('timer');
     const bubbleTrail = document.getElementById('bubbleTrail');
     const balanceDisplay = document.getElementById('balanceDisplay');
     const betInput = document.getElementById('betInput');
@@ -227,8 +214,6 @@
     let numMines = 0;
     let safeRevealed = 0;
     let gameOver = false;
-    let timer = 0;
-    let timerInterval = null;
     let bubbleInterval = null;
 
     let balance = parseFloat(localStorage.getItem('sugarBalance')) || 100;
@@ -245,22 +230,6 @@
       bubble.style.left = `${Math.random() * window.innerWidth}px`;
       bubbleTrail.appendChild(bubble);
       setTimeout(() => bubble.remove(), 3000);
-    }
-
-    function startTimer() {
-      timer = 0;
-      clearInterval(timerInterval);
-      clearInterval(bubbleInterval);
-      timerInterval = setInterval(() => {
-        timer++;
-        timerDisplay.textContent = `${timer}s`;
-      }, 1000);
-      bubbleInterval = setInterval(createBubble, 300);
-    }
-
-    function stopTimer() {
-      clearInterval(timerInterval);
-      clearInterval(bubbleInterval);
     }
 
     function factorial(n) {
@@ -318,8 +287,9 @@
       probabilityDisplay.textContent = '';
       scoreDisplay.textContent = 'Score: 0';
       multiplierDisplay.textContent = 'Multiplier: 1x';
-      timerDisplay.textContent = '0s';
-      startTimer();
+
+      clearInterval(bubbleInterval);
+      bubbleInterval = setInterval(createBubble, 300);
 
       game.style.gridTemplateColumns = `repeat(${gridSize}, 60px)`;
       let tiles = Array(totalTiles).fill('sugar');
@@ -350,7 +320,7 @@
         tile.textContent = '🐜';
         tile.classList.add('ant');
         gameOver = true;
-        stopTimer();
+        clearInterval(bubbleInterval);
         explosionSound.play();
         scoreDisplay.textContent = `Game Over! Final Score: ${score}`;
         multiplierDisplay.textContent = `Final Multiplier: ${multiplier.toFixed(2)}x`;
@@ -373,7 +343,7 @@
     function cashOut() {
       if (gameOver || score === 0) return;
       gameOver = true;
-      stopTimer();
+      clearInterval(bubbleInterval);
       cashoutSound.play();
 
       const winnings = parseFloat(betInput.value) * multiplier;
@@ -388,7 +358,7 @@
     addBalanceBtn.addEventListener('click', () => {
       const code = lockCodeInput.value;
       const addAmount = parseFloat(addBalanceInput.value);
-      if (code !== LOCK_CODE) {
+      if (code !== "1234") {
         alert("Incorrect code!");
         return;
       }
@@ -405,7 +375,6 @@
     restartBtn.addEventListener('click', createBoard);
     cashoutBtn.addEventListener('click', cashOut);
 
-    // ⭐ Twinkling stars
     function generateStars(count = 150) {
       const starsContainer = document.getElementById('stars');
       for (let i = 0; i < count; i++) {
