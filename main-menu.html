@@ -1,53 +1,192 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Game Hub</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sweet Odds 🍭</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+
     body {
-      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 40px 20px;
+      font-family: 'Poppins', sans-serif;
+      background-color: #0b0014;
+      color: #db1a7a;
       text-align: center;
-      background-color: #121212;
-      color: #fff;
+      position: relative;
+      overflow: hidden;
     }
 
     h1 {
-      margin-top: 50px;
+      font-size: 4em;
+      font-weight: 700;
+      margin-bottom: 50px;
+      background: linear-gradient(90deg, #ff4da6, #ff8ac9, #9e0f9e);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 0 15px rgba(255, 77, 166, 0.5);
+      z-index: 2;
+      position: relative;
+      letter-spacing: 2px;
     }
 
     .game-list {
       display: flex;
       flex-direction: column;
       align-items: center;
-      margin-top: 30px;
+      gap: 30px;
+      z-index: 2;
+      position: relative;
     }
 
     .game-link {
-      margin: 10px;
-      padding: 15px 30px;
-      font-size: 18px;
-      background-color: #1e1e1e;
-      color: #fff;
+      display: inline-block;
+      width: 320px;
+      padding: 25px 0;
+      font-size: 28px;
+      font-weight: 600;
+      color: white;
+      background: linear-gradient(135deg, #ff4da6, #9e0f9e);
       border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: background-color 0.3s;
+      border-radius: 18px;
       text-decoration: none;
+      box-shadow: 0 8px 24px rgba(255, 77, 166, 0.4);
+      transition: transform 0.2s, box-shadow 0.3s;
     }
 
     .game-link:hover {
-      background-color: #333;
+      transform: scale(1.08);
+      box-shadow: 0 10px 30px rgba(255, 77, 166, 0.6);
+    }
+
+    /* Starry Background */
+    #stars {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .star {
+      position: absolute;
+      width: 2px;
+      height: 2px;
+      background: white;
+      border-radius: 50%;
+      opacity: 0.8;
+      animation: twinkle 2s infinite ease-in-out;
+    }
+
+    @keyframes twinkle {
+      0%, 100% {
+        opacity: 0.2;
+        transform: scale(1);
+      }
+      50% {
+        opacity: 1;
+        transform: scale(1.3);
+      }
+    }
+
+    /* OneDrive-like Clouds */
+    .cloud {
+      position: absolute;
+      width: 200px;
+      height: 60px;
+      background: white;
+      border-radius: 100px;
+      opacity: 0.08;
+      animation: floatClouds linear infinite;
+    }
+
+    .cloud.pink {
+      background: #ffccf1;
+    }
+
+    .cloud::before,
+    .cloud::after {
+      content: '';
+      position: absolute;
+      background: inherit;
+      border-radius: 100px;
+    }
+
+    .cloud::before {
+      width: 120px;
+      height: 120px;
+      top: -40px;
+      left: 20px;
+    }
+
+    .cloud::after {
+      width: 80px;
+      height: 80px;
+      top: -20px;
+      right: 20px;
+    }
+
+    @keyframes floatClouds {
+      0% {
+        transform: translateX(-250px);
+      }
+      100% {
+        transform: translateX(120vw);
+      }
     }
   </style>
 </head>
 <body>
-  <h1>Welcome to My Game Hub</h1>
+  <h1>🍭 SWEET ODDS 🍬</h1>
   <div class="game-list">
-    <a class="game-link" href="game1/index.html">Play Game 1</a>
-    <a class="game-link" href="game2/index.html">Play Game 2</a>
-    <a class="game-link" href="game3/index.html">Play Game 3</a>
-    <!-- Add more links as needed -->
+    <a class="game-link" href="http://127.0.0.1:5500/Hackathon/Candy_Kaboom.html">🍬 Candy Kaboom</a>
+    <a class="game-link" href="game2/index.html">🍩 Candy Cross</a>
+    <a class="game-link" href="game3/index.html">🍦 Sugar Overdose</a>
+    <a class="game-link" href="game4/index.html">🍫 Sugar Overdose</a>
   </div>
+
+  <div id="stars"></div>
+
+  <script>
+    // Star generator
+    function generateStars(count = 150) {
+      const starsContainer = document.getElementById('stars');
+      for (let i = 0; i < count; i++) {
+        const star = document.createElement('div');
+        star.className = 'star';
+        const size = Math.random() * 2 + 1;
+        star.style.width = `${size}px`;
+        star.style.height = `${size}px`;
+        star.style.top = `${Math.random() * 100}%`;
+        star.style.left = `${Math.random() * 100}%`;
+        star.style.animationDuration = `${2 + Math.random() * 3}s`;
+        starsContainer.appendChild(star);
+      }
+    }
+
+    // Cloud generator
+    function generateClouds(count = 8) {
+      for (let i = 0; i < count; i++) {
+        const cloud = document.createElement('div');
+        cloud.className = 'cloud';
+        if (i % 2 === 0) cloud.classList.add('pink');
+        const size = 225;
+        cloud.style.width = `${size}px`;
+        cloud.style.height = `${size * 0.3}px`;
+        cloud.style.top = `${Math.random() * 80}%`;
+        cloud.style.left = `-${Math.random() * 500}px`;
+        cloud.style.animationDuration = `${15 + Math.random() * 30}s`;
+        cloud.style.zIndex = 0;
+        document.body.appendChild(cloud);
+      }
+    }
+
+    generateStars();
+    generateClouds();
+  </script>
 </body>
 </html>
