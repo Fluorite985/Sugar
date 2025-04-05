@@ -3,190 +3,221 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Sweet Odds 🍭</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+  <title>SweetOdds</title>
 
+  <!-- Fun Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Chewy&family=Quicksand:wght@400;700&display=swap" rel="stylesheet">
+
+  <style>
     body {
       margin: 0;
-      padding: 40px 20px;
-      font-family: 'Poppins', sans-serif;
-      background-color: #0b0014;
-      color: #db1a7a;
-      text-align: center;
+      padding: 0;
+      font-family: 'Quicksand', sans-serif;
+      background: url('im.jpg') no-repeat center center fixed;
+      background-size: cover;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
       position: relative;
       overflow: hidden;
     }
 
     h1 {
-      font-size: 4em;
-      font-weight: 700;
-      margin-bottom: 50px;
-      background: linear-gradient(90deg, #ff4da6, #ff8ac9, #9e0f9e);
+      font-family: 'Bebas Neue', sans-serif;
+      font-weight: bold;
+      position: absolute;
+      top: 110px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 110px;
+      margin: 0;
+      z-index: 2;
+      background: linear-gradient(90deg, #f0edee, #f7f4f5, #f0efed);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      text-shadow: 0 0 15px rgba(255, 77, 166, 0.5);
-      z-index: 2;
-      position: relative;
-      letter-spacing: 2px;
     }
 
-    .game-list {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 30px;
-      z-index: 2;
-      position: relative;
-    }
-
-    .game-link {
-      display: inline-block;
-      width: 320px;
-      padding: 25px 0;
+    .tagline {
+      position: absolute;
+      top: 230px;
+      left: 54%;
+      transform: translateX(-50%);
       font-size: 28px;
-      font-weight: 600;
-      color: white;
-      background: linear-gradient(135deg, #ff4da6, #9e0f9e);
+      font-weight: bold;
+      font-style: italic;
+      color: black;
+      z-index: 2;
+    }
+
+    .game-options {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 25px;
+      justify-content: center;
+      margin-top: 250px;
+      z-index: 2;
+    }
+
+    .game-button {
       border: none;
-      border-radius: 18px;
+      border-radius: 14px;
+      padding: 12px 25px;
+      font-size: 20px;
+      font-weight: 600;
+      color: black;
       text-decoration: none;
-      box-shadow: 0 8px 24px rgba(255, 77, 166, 0.4);
-      transition: transform 0.2s, box-shadow 0.3s;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
+      transition: all 0.3s ease;
     }
 
-    .game-link:hover {
+    .game-button:hover {
       transform: scale(1.08);
-      box-shadow: 0 10px 30px rgba(255, 77, 166, 0.6);
+      box-shadow: 0 10px 25px rgba(255, 255, 255, 0.4);
     }
 
-    /* Starry Background */
-    #stars {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 1;
-      pointer-events: none;
+    .kaboom {
+      background: linear-gradient(135deg, #ff4da6, #ff85a2);
     }
 
-    .star {
+    .kaboom:hover {
+      background: linear-gradient(135deg, #ff85a2, #ffd6e7);
+      color: #2c003e;
+    }
+
+    .dash {
+      background: linear-gradient(135deg, #ffb347, #ffcc33);
+    }
+
+    .dash:hover {
+      background: linear-gradient(135deg, #ffe29a, #fff2cc);
+      color: #5b4100;
+    }
+
+    .cross {
+      background: linear-gradient(135deg, #7ee8fa, #80ffdb);
+    }
+
+    .cross:hover {
+      background: linear-gradient(135deg, #ccfff6, #e0fff9);
+      color: #003333;
+    }
+
+    .overdose {
+      background: linear-gradient(135deg, #a9746e, #c3a995);
+    }
+
+    .overdose:hover {
+      background: linear-gradient(135deg, #decbb7, #f2e8dc);
+      color: #3b2c2a;
+    }
+
+    .balance {
       position: absolute;
-      width: 2px;
-      height: 2px;
-      background: white;
-      border-radius: 50%;
-      opacity: 0.8;
-      animation: twinkle 2s infinite ease-in-out;
-    }
-
-    @keyframes twinkle {
-      0%, 100% {
-        opacity: 0.2;
-        transform: scale(1);
-      }
-      50% {
-        opacity: 1;
-        transform: scale(1.3);
-      }
-    }
-
-    /* OneDrive-like Clouds */
-    .cloud {
-      position: absolute;
-      width: 200px;
-      height: 60px;
-      background: white;
-      border-radius: 100px;
-      opacity: 0.08;
-      animation: floatClouds linear infinite;
-    }
-
-    .cloud.pink {
-      background: #ffccf1;
-    }
-
-    .cloud::before,
-    .cloud::after {
-      content: '';
-      position: absolute;
-      background: inherit;
-      border-radius: 100px;
-    }
-
-    .cloud::before {
-      width: 120px;
-      height: 120px;
-      top: -40px;
-      left: 20px;
-    }
-
-    .cloud::after {
-      width: 80px;
-      height: 80px;
-      top: -20px;
-      right: 20px;
-    }
-
-    @keyframes floatClouds {
-      0% {
-        transform: translateX(-250px);
-      }
-      100% {
-        transform: translateX(120vw);
-      }
+      top: 30px;
+      right: 50px;
+      font-size: 22px;
+      background-color: rgba(255, 255, 255, 0.3);
+      padding: 10px 20px;
+      border-radius: 10px;
+      color: black;
+      font-weight: bold;
+      z-index: 3;
     }
   </style>
 </head>
 <body>
-  <h1>🍭 SWEET ODDS 🍬</h1>
-  <div class="game-list">
-    <a class="game-link" href="http://127.0.0.1:5500/Hackathon/Candy_Kaboom.html">🍬 Candy Kaboom</a>
-    <a class="game-link" href="game2/index.html">🍩 Candy Cross</a>
-    <a class="game-link" href="game3/index.html">🍦 Sugar Dash</a>
-    <a class="game-link" href="game4/index.html">🍫 Sugar Overdose</a>
-  </div>
-
-  <div id="stars"></div>
-
-  <script>
-    // Star generator
-    function generateStars(count = 150) {
-      const starsContainer = document.getElementById('stars');
-      for (let i = 0; i < count; i++) {
-        const star = document.createElement('div');
-        star.className = 'star';
-        const size = Math.random() * 2 + 1;
-        star.style.width = `${size}px`;
-        star.style.height = `${size}px`;
-        star.style.top = `${Math.random() * 100}%`;
-        star.style.left = `${Math.random() * 100}%`;
-        star.style.animationDuration = `${2 + Math.random() * 3}s`;
-        starsContainer.appendChild(star);
+    <!-- 💰 Balance Add Section -->
+    <div class="topup-bar">
+      <input type="number" id="add-amount" placeholder="Enter amount" />
+      <button onclick="addBalance()">Add Balance</button>
+    </div>
+  
+    <!-- 💰 Balance Display -->
+    <div class="balance">Balance: ₹<span id="balance-amount">0</span></div>
+  
+    <!-- 🏠 Page Content -->
+    <h1>SweetOdds</h1>
+    <div class="tagline">So sweet it should be illegal...</div>
+  
+    <!-- 🎮 Game Buttons (unchanged) -->
+    <div class="game-options">
+      <a class="game-button kaboom" href="Candy_Kaboom.html">🍬 Candy Kaboom</a>
+      <a class="game-button dash" href="Sugar_Dash.html">🍭 Sugar Dash</a>
+      <a class="game-button cross" href="Candy_Cross.html">🍡 Candy Cross</a>
+      <a class="game-button overdose" href="Sugar_Overdose.html">🍫 Sugar Overdose</a>
+    </div>
+  
+    <!-- 🧠 Script Section -->
+    <script>
+      const BALANCE_KEY = "sugarBalance";
+  
+      if (localStorage.getItem(BALANCE_KEY) === null) {
+        localStorage.setItem(BALANCE_KEY, "1000");
       }
-    }
-
-    // Cloud generator
-    function generateClouds(count = 8) {
-      for (let i = 0; i < count; i++) {
-        const cloud = document.createElement('div');
-        cloud.className = 'cloud';
-        if (i % 2 === 0) cloud.classList.add('pink');
-        const size = 225;
-        cloud.style.width = `${size}px`;
-        cloud.style.height = `${size * 0.3}px`;
-        cloud.style.top = `${Math.random() * 80}%`;
-        cloud.style.left = `-${Math.random() * 500}px`;
-        cloud.style.animationDuration = `${15 + Math.random() * 30}s`;
-        cloud.style.zIndex = 0;
-        document.body.appendChild(cloud);
+  
+      function updateBalance() {
+        const balance = localStorage.getItem(BALANCE_KEY);
+        document.getElementById("balance-amount").textContent = balance;
       }
-    }
-
-    generateStars();
-    generateClouds();
-  </script>
-</body>
+  
+      function addBalance() {
+        const input = document.getElementById("add-amount");
+        const amount = parseInt(input.value);
+        if (!isNaN(amount) && amount > 0) {
+          let current = parseInt(localStorage.getItem(BALANCE_KEY));
+          localStorage.setItem(BALANCE_KEY, current + amount);
+          updateBalance();
+          input.value = ""; // clear field
+        } else {
+          alert("Please enter a valid amount!");
+        }
+      }
+  
+      updateBalance();
+    </script>
+  
+    <style>
+      .topup-bar {
+        position: absolute;
+        top: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: rgba(255, 255, 255, 0.2);
+        padding: 10px 20px;
+        border-radius: 15px;
+        backdrop-filter: blur(5px);
+        z-index: 4;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+  
+      .topup-bar input {
+        padding: 8px 12px;
+        border: none;
+        border-radius: 8px;
+        font-size: 16px;
+        width: 120px;
+      }
+  
+      .topup-bar button {
+        background: #fff176;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 8px;
+        font-weight: bold;
+        font-size: 15px;
+        cursor: pointer;
+        transition: background 0.3s;
+      }
+  
+      .topup-bar button:hover {
+        background: #ffeb3b;
+      }
+    </style>
+  </body>
+  
 </html>
