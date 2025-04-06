@@ -16,7 +16,6 @@
       gap: 40px;
       padding-top: 40px;
     }
-
     h1 {
       color: black;
       text-align: center;
@@ -24,7 +23,6 @@
       margin-bottom: 10px;
       font-size: 2rem;
     }
-
     #game-container {
       position: relative;
       width: 600px;
@@ -34,14 +32,12 @@
       overflow: hidden;
       box-shadow: 0 0 20px rgba(0,0,0,0.3);
     }
-
     #game-world {
       position: absolute;
       width: 100%;
       transition: transform 0.2s ease;
       z-index: 1;
     }
-
     #player {
       width: 40px;
       height: 40px;
@@ -54,7 +50,6 @@
       z-index: 10;
       transition: top 0.2s;
     }
-
     .lane {
       width: 100%;
       height: 50px;
@@ -64,7 +59,6 @@
       background-color: #2c2c2c;
       background-image: linear-gradient(90deg, #2c2c2c 90%, #333 100%);
     }
-
     .lane::before {
       content: '';
       position: absolute;
@@ -72,22 +66,14 @@
       left: 0;
       width: 100%;
       height: 4px;
-      background: repeating-linear-gradient(
-        to right,
-        white 0,
-        white 20px,
-        transparent 20px,
-        transparent 40px
-      );
+      background: repeating-linear-gradient(to right, white 0, white 20px, transparent 20px, transparent 40px);
       transform: translateY(-50%);
       opacity: 0.7;
     }
-
     .obstacle, .sugar-cube {
       position: absolute;
       z-index: 5;
     }
-
     .obstacle {
       width: 40px;
       height: 30px;
@@ -96,7 +82,6 @@
       background-repeat: no-repeat;
       background-position: center;
     }
-
     .sugar-cube {
       width: 20px;
       height: 20px;
@@ -104,7 +89,6 @@
       background-size: cover;
       background-repeat: no-repeat;
     }
-
     #stats-box {
       background: rgba(0, 0, 0, 0.6);
       border: 2px solid #00ffff;
@@ -117,12 +101,10 @@
       box-shadow: 0 0 12px #00ffff;
       backdrop-filter: blur(6px);
     }
-
     #stats-box span {
       margin: 0 6px;
       font-weight: bold;
     }
-
     #controls {
       display: flex;
       flex-direction: column;
@@ -132,7 +114,6 @@
       border-radius: 10px;
       box-shadow: 0 0 10px #000;
     }
-
     .ctrl-btn {
       font-size: 16px;
       padding: 12px 20px;
@@ -143,13 +124,11 @@
       cursor: pointer;
       transition: transform 0.2s, box-shadow 0.2s;
     }
-
     .ctrl-btn:hover {
       background-color: #222;
       transform: scale(1.05);
       box-shadow: 0 0 8px white;
     }
-
     #game-over-screen, #pause-menu {
       display: none;
       position: fixed;
@@ -163,12 +142,10 @@
       z-index: 100;
       animation: flash 0.5s alternate 6;
     }
-
     @keyframes flash {
       from { background-color: #ffffff; }
       to { background-color: #ffe; }
     }
-
     @keyframes ant-runover {
       from { left: -40px; }
       to { left: 600px; }
@@ -196,6 +173,7 @@
     <button class="ctrl-btn" onclick="movePlayer({key: 'ArrowDown'})">⬇️ Down</button>
     <button class="ctrl-btn" onclick="togglePause()">⏸️ Pause</button>
     <button class="ctrl-btn" onclick="cashOut()">💰 Cash Out</button>
+    <button class="ctrl-btn" onclick="fullRestart()">🔁 Restart Game</button>
   </div>
 
   <div id="pause-menu">
@@ -219,7 +197,7 @@
 
     const sugarConfig = {
       spawnPerLane: 1,
-      enabled: (laneIndex) => laneIndex >= 0 // ✅ Sugar in all lanes
+      enabled: (laneIndex) => laneIndex >= 0
     };
 
     const sounds = {
@@ -254,7 +232,7 @@
       initialMoney = parseFloat(input);
       if (isNaN(initialMoney) || initialMoney <= 0 || initialMoney > bank) initialMoney = 10;
       money = initialMoney;
-      bank -= money;
+      bank -= initialMoney;
       localStorage.setItem("bank", bank);
       multiplier = 1.0;
 
@@ -264,7 +242,7 @@
       paused = false;
       speed = 3;
       playerLane = 0;
-      maxLaneReached = playerLane;
+      maxLaneReached = 0;
       laneCount = 0;
 
       const playerElement = document.getElementById("player");
@@ -354,7 +332,8 @@
       if (playerLane > maxLaneReached) {
         maxLaneReached = playerLane;
         multiplier *= 1.1;
-        multiplierDisplay.innerText = multiplier.toFixed(1);
+        money = initialMoney * multiplier;
+        updateDisplays();
 
         for (let i = laneCount + 1; i <= playerLane + 30; i++) {
           addLane(i);
@@ -374,8 +353,6 @@
         playSound(sounds.move);
         playerLane++;
         updatePlayerPosition();
-        money = initialMoney * multiplier;
-        moneyDisplay.innerText = money.toFixed(2);
         setTimeout(() => { if (gameActive) moving = false; }, 200);
       }
     }
@@ -404,6 +381,11 @@
       sugarCubes = [];
       moving = false;
       initGame();
+    }
+
+    function fullRestart() {
+      localStorage.setItem("bank", "100");
+      restartGame();
     }
   </script>
 </body>
